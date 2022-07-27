@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+  <style>
+
+.tooltipHeader {
+  float: right;
+  font-size: 0.6rem;
+}
+
+.tooltipHeader::before {
+  float: left;
+  content: "Date:";
+  padding-right: 5px;
+  opacity: 0.5;
+  display: block;
+}
+
+.tooltipHeader::after {
+  float: none;
+}
+
+.tooltipPointWrapper {
+  display: block;
+  text-align: center;
+  padding: 10px 0;
+}
+
+.tooltipPoint {
+  font-size: 1.5rem;
+  padding-left: 5px;
+  /* color: #FF0045; */
+}
+
+.tooltipValueSuffix {
+  padding-left: 5px;
+  color: #1bc9a8;
+}
+
+.tooltipLine {
+  display: block;
+  opacity: 0.5;
+  background-color: #fff;
+  width: 100%;
+  height: 1px;
+  padding: 0;
+  margin: 0;
+}
+
+  </style>
+<body>
+
+  
+  <div id="container2"></div>
+
+
+<script>
+  $(function () {
+    // Make monochrome colors
+var pieColors = (function () {
+  var colors = [],
+    base = Highcharts.getOptions().colors[0],
+    i;
+
+  for (i = 0; i < 10; i += 1) {
+    // Start out with a darkened base color (negative brighten), and end
+    // up with a much brighter color
+    colors.push(Highcharts.color(base).brighten((i - 3) / 7).get());
+  }
+  return colors;
+}());
+
+// Build the chart
+$('#container2').highcharts({
+  chart: {
+    plotBackgroundColor: null,
+    plotBorderWidth: null,
+    plotShadow: false,
+    type: 'pie'
+  },
+  credits:false,
+  title: {
+    text: 'Browser market shares'
+  },
+  tooltip: {
+    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+  },
+  accessibility: {
+    point: {
+      valueSuffix: '%'
+    }
+  },
+  plotOptions: {
+    pie: {
+      allowPointSelect: true,
+      cursor: 'pointer',
+      colors: pieColors,
+      dataLabels: {
+        enabled: true,
+        format: '<b>{point.name}</b><br>{point.percentage:.1f} %',
+        distance: -50,
+        filter: {
+          property: 'percentage',
+          operator: '>',
+          value: 4
+        }
+      }
+    }
+  },
+  series: [{
+    name: 'Share',
+    data: [
+      { name: 'Chrome', y: 61.41 },
+      { name: 'Internet Explorer', y: 11.84 },
+      { name: 'Firefox', y: 10.85 },
+      { name: 'Edge', y: 4.67 },
+      { name: 'Safari', y: 4.18 },
+      { name: 'Other', y: 70.05 }
+    ]
+  }]
+});
+ 
+$(window).resize(function(){
+  var chart = $('#container2').highcharts();
+  
+  console.log('redraw');
+  var w = $('#container2').closest(".wrapper").width()
+  // setsize will trigger the graph redraw 
+  chart.setSize(       
+      w,w * (3/4),false
+  );
+});
+
+});
+
+
+</script> 
+</body>
+</html>

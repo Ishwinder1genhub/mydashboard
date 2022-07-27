@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+  <style>
+    
+.tooltipHeader {
+  float: right;
+  font-size: 0.6rem;
+}
+
+.tooltipHeader::before {
+  float: left;
+  content: "Date:";
+  padding-right: 5px;
+  opacity: 0.5;
+  display: block;
+}
+
+.tooltipHeader::after {
+  float: none;
+}
+
+.tooltipPointWrapper {
+  display: block;
+  text-align: center;
+  padding: 10px 0;
+}
+
+.tooltipPoint {
+  font-size: 1.5rem;
+  padding-left: 5px;
+  /* color: #FF0045; */
+}
+
+.tooltipValueSuffix {
+  padding-left: 5px;
+  color: #1bc9a8;
+}
+
+.tooltipLine {
+  display: block;
+  opacity: 0.5;
+  background-color: #fff;
+  width: 100%;
+  height: 1px;
+  padding: 0;
+  margin: 0;
+}
+
+  </style>
+<body>
+
+  
+          <div id="container"></div>
+
+<script>
+  $(function () {
+    $('#container').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+        type: 'column'
+    },
+    credits:false,
+
+    colors: [
+      '#6BCBFD',
+      '#0078FA',
+      '#004EA0'
+    ],
+
+    title: {
+        text: "tooltip"
+    },
+
+    exporting: {
+      enabled: false
+    },
+
+    tooltip: {
+      useHTML: true,
+      headerFormat: '<span class="tooltipHeader">{point.key}y</span>',
+      pointFormat: '<br/> <div class="tooltipPointWrapper">‎'
+      +
+      '<span class="tooltipPoint">{point.y}</span>'
+      +
+      '<span class="tooltipValueSuffix">bil KRW</span></div>'
+      +
+      '<span class="tooltipLine"></span> <br/>'
+      +
+      '<span style="color:{point.color}">\u25CF</span> {series.name}',
+      style: {
+        color: '#fff'
+      },
+      valueDecimals: 0,
+      backgroundColor: '#000',
+      borderColor: '#000',
+      borderRadius: 10,
+      borderWidth: 3,
+    },
+
+    xAxis: {
+      categories: ['2011', '2012', '2013'],
+      labels: {
+        style: {
+          font: 'normal 12px Verdana, sans-serif, arial'
+        }
+      }
+    },
+
+    yAxis: {
+      title: {
+        text: 'bil KRW'
+      },
+      gridLineWidth: 0,
+      tickLength: 5,
+      tickWidth: 1,
+      lineWidth:1,
+      tickPosition: 'outside',
+      labels: {
+        align: 'right',
+        x:-10,
+        y:5
+      },
+      plotLines: [{
+        color: 'rgb(204, 214, 235)',
+        width: 1,
+        value: 0
+      }]
+    },
+
+    plotOptions: {
+      series: {
+        minPointLength: 4
+      }
+    },
+
+    credits: {
+        enabled: false
+    },
+
+    series: [{
+        name: 'Cash Flows from Operating',
+        data: [299.9, -79.2, 383.4]
+    }, {
+        name: 'Cash Flows from Investing',
+        data: [285.6, -1154.4, -1138.6]
+    }, {
+        name: 'Cash Flows from Financing',
+        data: [5.8, 914.5, 270.1]
+    }]
+});
+$(window).resize(function(){
+  var chart = $('#container').highcharts();
+  
+  console.log('redraw');
+  var w = $('#container').closest(".wrapper").width()
+  // setsize will trigger the graph redraw 
+  chart.setSize(       
+      w,w * (3/4),false
+  );
+});
+
+});
+</script> 
+</body>
+</html>
