@@ -45,11 +45,11 @@ def myth6():
 def myth7():
     return render_template('chart7.html')
 
-@app.route("/getdata",methods=["GET"])
-def getdata():
-    jsond= request.json()
+@app.route("/getdata/<id>",methods=["GET"])
+def getdata(id):
+    jsond= id
     collection = db.cap_master.aggregate([
-        {"$match":{"_id":ObjectId(jsond["_id"])}},
+        {"$match":{"_id":ObjectId(jsond)}},
             {"$project":{"_id":1}}
             ])
     df= pd.DataFrame(list(collection)).fillna(0)
