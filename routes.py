@@ -50,9 +50,10 @@ def getdata(id):
     jsond= id
     collection = db.cap_master.aggregate([
         {"$match":{"_id":ObjectId(jsond)}},
-            {"$project":{"_id":1}}
+            {"$project":{"_id":1,"data":1}}
             ])
     df= pd.DataFrame(list(collection)).fillna(0)
+    df["_id"] = df["_id"].astype("str")
     data= df.to_dict("records") 
     return json.dumps(data)
 
